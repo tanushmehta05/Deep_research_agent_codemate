@@ -64,16 +64,21 @@ def save_summary_md(summary, file_name="summary.md"):
 # ------------------------------
 # Save summary as PDF
 # ------------------------------
-def save_summary_pdf(summary, file_name="summary.pdf"):
+def save_summary_pdf(summary_text, file_name="summary.pdf"):
     pdf = FPDF()
     pdf.add_page()
-    pdf.set_auto_page_break(auto=True, margin=15)
-    pdf.set_font("Arial", size=12)
-    for line in summary.split("\n"):
-        pdf.multi_cell(0, 10, line)
+    
+    # Add a Unicode font (DejaVuSans)
+    pdf.add_font("DejaVu", "", "DejaVuSans.ttf", uni=True)
+    pdf.set_font("DejaVu", size=12)
+    
+    # Split lines to avoid very long lines
+    lines = summary_text.split("\n")
+    for line in lines:
+        pdf.multi_cell(0, 8, line)
+    
     pdf.output(file_name)
     return file_name
-
 # ------------------------------
 # Main App
 # ------------------------------
